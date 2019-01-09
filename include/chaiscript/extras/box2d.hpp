@@ -28,7 +28,7 @@ namespace chaiscript {
         // b2Color
         m->add(user_type<b2Color>(), "b2Color");
         m->add(constructor<b2Color()>(), "b2Color");
-        m->add(constructor<b2Color(float32, float32, float32, float32)>(), "b2Color");
+        m->add(constructor<b2Color(float32, float32, float32)>(), "b2Color");
         m->add(fun(&b2Color::Set), "Set");
 
         // b2Draw
