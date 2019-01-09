@@ -3,7 +3,7 @@
 
 #include <chaiscript/chaiscript.hpp>
 
-#include "Box2D/Box2D.h"
+#include <Box2D/Box2D.h>
 
 namespace chaiscript {
   namespace extras {
@@ -28,7 +28,7 @@ namespace chaiscript {
         // b2Color
         m->add(user_type<b2Color>(), "b2Color");
         m->add(constructor<b2Color()>(), "b2Color");
-        m->add(constructor<b2Color(float, float, float, float)>(), "b2Color");
+        m->add(constructor<b2Color(float32, float32, float32, float32)>(), "b2Color");
         m->add(fun(&b2Color::Set), "Set");
 
         // b2Draw
@@ -44,7 +44,6 @@ namespace chaiscript {
         m->add(fun(&b2Draw::DrawSolidCircle), "DrawSolidCircle");
         m->add(fun(&b2Draw::DrawSegment), "DrawSegment");
         m->add(fun(&b2Draw::DrawTransform), "DrawTransform");
-        m->add(fun(&b2Draw::DrawPoint), "DrawPoint");
 
         return m;
       }
@@ -116,8 +115,8 @@ namespace chaiscript {
 
         // b2Body
         m->add(user_type<b2Body>(), "b2Body");
-        m->add(fun<b2Fixture*, b2Body, const b2FixtureDef*>(&b2Body::CreateFixture), "CreateFixture");
-        m->add(fun<b2Fixture*, b2Body, const b2Shape*, float>(&b2Body::CreateFixture), "CreateFixture");
+        m->add(fun(static_cast<b2Fixture*( b2Body::*)(const b2FixtureDef*)>(&b2Body::CreateFixture)), "CreateFixture");
+        m->add(fun(static_cast<b2Fixture*( b2Body::*)(const b2Shape*, float32)>(&b2Body::CreateFixture)), "CreateFixture");
         m->add(fun(&b2Body::DestroyFixture), "DestroyFixture");
         m->add(fun(&b2Body::SetTransform), "SetTransform");
         m->add(fun(&b2Body::GetTransform), "GetTransform");
@@ -133,7 +132,7 @@ namespace chaiscript {
         m->add(fun(&b2Body::ApplyForceToCenter), "ApplyForceToCenter");
         m->add(fun(&b2Body::ApplyTorque), "ApplyTorque");
         m->add(fun(&b2Body::ApplyLinearImpulse), "ApplyLinearImpulse");
-        m->add(fun(&b2Body::ApplyLinearImpulseToCenter), "ApplyLinearImpulseToCenter");
+        //m->add(fun(&b2Body::ApplyLinearImpulseToCenter), "ApplyLinearImpulseToCenter");
         m->add(fun(&b2Body::ApplyAngularImpulse), "ApplyAngularImpulse");
         m->add(fun(&b2Body::GetMass), "GetMass");
         m->add(fun(&b2Body::GetInertia), "GetInertia");
@@ -205,8 +204,8 @@ namespace chaiscript {
         m->add(fun(&b2PolygonShape::Set), "Set");
         // TODO: Add b2BlockAllocator and b2PolygonShape::Clone
         //b2Shape* Clone(b2BlockAllocator* allocator) const override;
-        m->add(fun<void, b2PolygonShape, float, float>(&b2PolygonShape::SetAsBox), "SetAsBox");
-        m->add(fun<void, b2PolygonShape, float, float, const b2Vec2&, float>(&b2PolygonShape::SetAsBox), "SetAsBox");
+        m->add(fun(static_cast<void( b2PolygonShape::*)(float32, float32)>(&b2PolygonShape::SetAsBox)), "SetAsBox");
+        m->add(fun(static_cast<void( b2PolygonShape::*)(float32, float32, const b2Vec2&, float32)>(&b2PolygonShape::SetAsBox)), "SetAsBox");
         m->add(fun(&b2PolygonShape::TestPoint), "TestPoint");
         m->add(fun(&b2PolygonShape::RayCast), "RayCast");
         m->add(fun(&b2PolygonShape::ComputeAABB), "ComputeAABB");
@@ -279,7 +278,7 @@ namespace chaiscript {
       }
 
       /**
-       * Register a ChaiScript module with b2Math.
+       * Register a ChaiScript module with b2World.
        *
        * @see b2World.h
        */
@@ -295,10 +294,13 @@ namespace chaiscript {
         m->add(fun(&b2World::DestroyBody), "DestroyBody");
         m->add(fun(&b2World::CreateJoint), "CreateJoint");
         m->add(fun(&b2World::DestroyJoint), "DestroyJoint");
-        m->add(fun(&b2World::Step), "Step");
+        m->add(fun(static_cast<void(b2World::*)(float32, int32, int32, int32)>(&b2World::Step)), "Step");
+        m->add(fun(static_cast<void(b2World::*)(float32, int32, int32)>(&b2World::Step)), "Step");
+        m->add(fun(&b2World::CalculateReasonableParticleIterations), "CalculateReasonableParticleIterations");
         m->add(fun(&b2World::ClearForces), "ClearForces");
         m->add(fun(&b2World::DrawDebugData), "DrawDebugData");
         m->add(fun(&b2World::QueryAABB), "QueryAABB");
+        m->add(fun(&b2World::QueryShapeAABB), "QueryShapeAABB");
         m->add(fun(&b2World::RayCast), "RayCast");
         /*
         TODO: Add function overrides.
@@ -344,7 +346,7 @@ namespace chaiscript {
         // b2Vec2
         m->add(user_type<b2Vec2>(), "b2Vec2");
         m->add(constructor<b2Vec2()>(), "b2Vec2");
-        m->add(constructor<b2Vec2(float, float)>(), "b2Vec2");
+        m->add(constructor<b2Vec2(float32, float32)>(), "b2Vec2");
         m->add(fun(&b2Vec2::x), "x");
         m->add(fun(&b2Vec2::y), "y");
         m->add(fun(&b2Vec2::Set), "Set");
@@ -358,7 +360,7 @@ namespace chaiscript {
         // b2Vec3
         m->add(user_type<b2Vec3>(), "b2Vec3");
         m->add(constructor<b2Vec3()>(), "b2Vec3");
-        m->add(constructor<b2Vec3(float, float, float)>(), "b2Vec3");
+        m->add(constructor<b2Vec3(float32, float32, float32)>(), "b2Vec3");
         m->add(fun(&b2Vec3::x), "x");
         m->add(fun(&b2Vec3::y), "y");
         m->add(fun(&b2Vec3::z), "z");
@@ -368,7 +370,7 @@ namespace chaiscript {
         // b2Mat22
         m->add(user_type<b2Mat22>(), "b2Mat22");
         m->add(constructor<b2Mat22()>(), "b2Mat22");
-        m->add(constructor<b2Mat22(float, float, float, float)>(), "b2Mat22");
+        m->add(constructor<b2Mat22(float32, float32, float32, float32)>(), "b2Mat22");
         m->add(constructor<b2Mat22(const b2Vec2&, const b2Vec2&)>(), "b2Mat22");
         m->add(fun(&b2Mat22::ex), "ex");
         m->add(fun(&b2Mat22::ey), "ey");
@@ -394,7 +396,7 @@ namespace chaiscript {
         // b2Rot
         m->add(user_type<b2Rot>(), "b2Rot");
         m->add(constructor<b2Rot()>(), "b2Rot");
-        m->add(constructor<b2Rot(float)>(), "b2Rot");
+        m->add(constructor<b2Rot(float32)>(), "b2Rot");
         m->add(fun(&b2Rot::s), "s");
         m->add(fun(&b2Rot::c), "c");
         m->add(fun(&b2Rot::SetIdentity), "SetIdentity");

@@ -1,6 +1,6 @@
-# ChaiScript Extras Box2D [![Build Status](https://travis-ci.org/RobLoach/ChaiScript_Extras_Box2D.svg?branch=master)](https://travis-ci.org/RobLoach/ChaiScript_Extras_Box2D)
+# ChaiScript Extras Liquidfun [![Build Status](https://travis-ci.org/RobLoach/ChaiScript_Extras_Liquidfun.svg?branch=master)](https://travis-ci.org/RobLoach/ChaiScript_Extras_Liquidfun)
 
-Provides [ChaiScript](https://github.com/ChaiScript/ChaiScript) bindings to [Box2D](https://github.com/erincatto/Box2D).
+Provides [ChaiScript](https://github.com/ChaiScript/ChaiScript) bindings to [Liquidfun](https://github.com/google/Liquidfun).
 
 This is currently just a proof of concept. Any assistance in getting this up and running would be much appreciated.
 
@@ -8,16 +8,16 @@ This is currently just a proof of concept. Any assistance in getting this up and
 
 1. Include the module source...
     ```cpp
-    #include "ChaiScript_Extras_Box2D/include/chaiscript/extras/box2d.hpp"
+    #include "ChaiScript_Extras_Liquidfun/include/chaiscript/extras/box2d.hpp"
     ```
 
 2. Add the module to the ChaiScript instance...
     ```cpp
-    auto box2dlib = chaiscript::extras::box2d::bootstrap();
-    chai.add(box2dlib);
+    auto Box2Dlib = chaiscript::extras::box2d::bootstrap();
+    chai.add(Box2Dlib);
     ```
 
-3. Use Box2D in ChaiScript...
+3. Use Liquidfun in ChaiScript...
     ```c
     // Define the gravity vector.
     var gravity = b2Vec2(0.0f, -10.0f)
