@@ -17,6 +17,23 @@ This is currently just a proof of concept. Any assistance in getting this up and
     chai.add(Box2Dlib);
     ```
 
+    **Note**:
+
+    As you cannot pass ```void*``` with Chaiscript, ```SetUserData / GetUserData``` have been removed from ```b2Body / b2Fixture```
+
+    You can create your own wrapper class (as you probably would anyway) and add missing chaiscript bindings like this:
+
+    ```cpp
+        chai.add(chaiscript::fun([](const b2Body* body)
+		{
+			return static_cast<MyAwesomeDataWrapper*>(body->GetUserData());
+		}), "GetUserData");
+		chai.add(chaiscript::fun([](b2Body* body, MyAwesomeDataWrapper* data)
+		{
+			body->SetUserData(data);
+		}), "SetUserData");
+    ```
+
 3. Use Liquidfun in ChaiScript...
     ```c
     // Define the gravity vector.
